@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Autocomplete, TextField, Box, Button } from '@mui/material';
-import { CHAMPIONS } from '../data/champions';
 import { useGameStore } from '../store/useGameStore';
+import { CHAMPIONS } from "../data/championsData";
 
 export default function GuessInput() {
     const [value, setValue] = useState<string>('');

@@ -1,6 +1,6 @@
 import type {Champion} from "./champions.ts";
 
-export const champions: Champion[] = [
+export const CHAMPIONS: Champion[] = [
     {
         name: 'Aatrox',
         gender: 'Male',
@@ -34,7 +34,7 @@ export const champions: Champion[] = [
     {
         name: 'Akshan',
         gender: 'Male',
-        roles: ['Mid', 'Bot'],
+        roles: ['Mid'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -54,7 +54,7 @@ export const champions: Champion[] = [
     {
         name: 'Amumu',
         gender: 'Male',
-        roles: ['Jungle', 'Support'],
+        roles: ['Jungle'],
         species: ['Undead'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -74,7 +74,7 @@ export const champions: Champion[] = [
     {
         name: 'Annie',
         gender: 'Female',
-        roles: ['Mid', 'Support'],
+        roles: ['Mid'],
         species: ['Human', 'Magicborn'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -94,7 +94,7 @@ export const champions: Champion[] = [
     {
         name: 'Ashe',
         gender: 'Female',
-        roles: ['Bot', 'Support'],
+        roles: ['Bot'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -144,7 +144,7 @@ export const champions: Champion[] = [
     {
         name: 'Blitzcrank',
         gender: 'Other',
-        roles: ['Support', 'Jungle'],
+        roles: ['Support'],
         species: ['Golem'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -214,7 +214,7 @@ export const champions: Champion[] = [
     {
         name: "Cho'Gath",
         gender: 'Other',
-        roles: ['Top', 'Jungle'],
+        roles: ['Top'],
         species: ['Voidborn'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -224,7 +224,7 @@ export const champions: Champion[] = [
     {
         name: 'Corki',
         gender: 'Male',
-        roles: ['Mid', 'Bot'],
+        roles: ['Bot'],
         species: ['Yordle'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -304,7 +304,7 @@ export const champions: Champion[] = [
     {
         name: 'Ezreal',
         gender: 'Male',
-        roles: ['Bot', 'Mid'],
+        roles: ['Bot'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -314,7 +314,7 @@ export const champions: Champion[] = [
     {
         name: 'Fiddlesticks',
         gender: 'Other',
-        roles: ['Jungle', 'Support'],
+        roles: ['Jungle'],
         species: ['Demon'],
         resource: 'Mana',
         rangeType: 'Melee Ranged',
@@ -344,7 +344,7 @@ export const champions: Champion[] = [
     {
         name: 'Galio',
         gender: 'Male',
-        roles: ['Mid', 'Support'],
+        roles: ['Mid'],
         species: ['Golem'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -354,7 +354,7 @@ export const champions: Champion[] = [
     {
         name: 'Gangplank',
         gender: 'Male',
-        roles: ['Top', 'Mid'],
+        roles: ['Top'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -384,7 +384,7 @@ export const champions: Champion[] = [
     {
         name: 'Gragas',
         gender: 'Male',
-        roles: ['Jungle', 'Top', 'Mid'],
+        roles: ['Jungle', 'Top'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -394,7 +394,7 @@ export const champions: Champion[] = [
     {
         name: 'Graves',
         gender: 'Male',
-        roles: ['Jungle', 'Bot'],
+        roles: ['Jungle'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -404,7 +404,7 @@ export const champions: Champion[] = [
     {
         name: 'Gwen',
         gender: 'Female',
-        roles: ['Top', 'Mid'],
+        roles: ['Top'],
         species: ['Spirit'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -424,7 +424,7 @@ export const champions: Champion[] = [
     {
         name: 'Heimerdinger',
         gender: 'Male',
-        roles: ['Mid', 'Top', 'Support'],
+        roles: ['Top'],
         species: ['Yordle'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -434,7 +434,7 @@ export const champions: Champion[] = [
     {
         name: 'Hwei',
         gender: 'Male',
-        roles: ['Mid', 'Support'],
+        roles: ['Mid'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -484,7 +484,7 @@ export const champions: Champion[] = [
     {
         name: 'Jarvan IV',
         gender: 'Male',
-        roles: ['Jungle', 'Top'],
+        roles: ['Jungle'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -504,7 +504,7 @@ export const champions: Champion[] = [
     {
         name: 'Jayce',
         gender: 'Male',
-        roles: ['Top', 'Mid'],
+        roles: ['Top'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee Ranged',
@@ -514,7 +514,7 @@ export const champions: Champion[] = [
     {
         name: 'Jhin',
         gender: 'Male',
-        roles: ['Bot', 'Mid'],
+        roles: ['Bot'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -554,7 +554,7 @@ export const champions: Champion[] = [
     {
         name: 'Karma',
         gender: 'Female',
-        roles: ['Support', 'Mid'],
+        roles: ['Support'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -564,7 +564,7 @@ export const champions: Champion[] = [
     {
         name: 'Karthus',
         gender: 'Male',
-        roles: ['Mid', 'Jungle'],
+        roles: ['Jungle'],
         species: ['Undead'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -654,7 +654,7 @@ export const champions: Champion[] = [
     {
         name: "Kog'Maw",
         gender: 'Other',
-        roles: ['Bot', 'Mid'],
+        roles: ['Bot'],
         species: ['Voidborn'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -694,7 +694,7 @@ export const champions: Champion[] = [
     {
         name: 'Leona',
         gender: 'Female',
-        roles: ['Support', 'Top'],
+        roles: ['Support'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -704,7 +704,7 @@ export const champions: Champion[] = [
     {
         name: 'Lillia',
         gender: 'Female',
-        roles: ['Jungle', 'Top'],
+        roles: ['Jungle'],
         species: ['Spirit'],
         resource: 'Mana',
         rangeType: 'Melee Ranged',
@@ -724,7 +724,7 @@ export const champions: Champion[] = [
     {
         name: 'Lucian',
         gender: 'Male',
-        roles: ['Bot', 'Mid'],
+        roles: ['Bot'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -734,7 +734,7 @@ export const champions: Champion[] = [
     {
         name: 'Lulu',
         gender: 'Female',
-        roles: ['Support', 'Mid'],
+        roles: ['Support'],
         species: ['Yordle'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -754,7 +754,7 @@ export const champions: Champion[] = [
     {
         name: 'Malphite',
         gender: 'Male',
-        roles: ['Top', 'Jungle', 'Support'],
+        roles: ['Top', 'Support'],
         species: ['Golem'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -764,7 +764,7 @@ export const champions: Champion[] = [
     {
         name: 'Malzahar',
         gender: 'Male',
-        roles: ['Mid', 'Jungle'],
+        roles: ['Mid'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -774,7 +774,7 @@ export const champions: Champion[] = [
     {
         name: 'Maokai',
         gender: 'Male',
-        roles: ['Top', 'Jungle', 'Support'],
+        roles: ['Jungle', 'Support'],
         species: ['Spirit'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -814,7 +814,7 @@ export const champions: Champion[] = [
     {
         name: 'Mordekaiser',
         gender: 'Male',
-        roles: ['Top', 'Mid'],
+        roles: ['Top'],
         species: ['Undead'],
         resource: 'Shield',
         rangeType: 'Melee',
@@ -834,7 +834,7 @@ export const champions: Champion[] = [
     {
         name: 'Naafiri',
         gender: 'Female',
-        roles: ['Mid'],
+        roles: ['Mid', 'Jungle'],
         species: ['Darkin'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -884,7 +884,7 @@ export const champions: Champion[] = [
     {
         name: 'Nidalee',
         gender: 'Female',
-        roles: ['Jungle', 'Top'],
+        roles: ['Jungle'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee Ranged',
@@ -904,7 +904,7 @@ export const champions: Champion[] = [
     {
         name: 'Nocturne',
         gender: 'Male',
-        roles: ['Jungle', 'Mid'],
+        roles: ['Jungle'],
         species: ['Demon'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -954,7 +954,7 @@ export const champions: Champion[] = [
     {
         name: 'Pantheon',
         gender: 'Male',
-        roles: ['Mid', 'Top', 'Support'],
+        roles: ['Jungle', 'Support'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -964,7 +964,7 @@ export const champions: Champion[] = [
     {
         name: 'Poppy',
         gender: 'Female',
-        roles: ['Top', 'Jungle'],
+        roles: ['Top', 'Jungle', 'Support'],
         species: ['Yordle'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -974,7 +974,7 @@ export const champions: Champion[] = [
     {
         name: 'Pyke',
         gender: 'Male',
-        roles: ['Support', 'Mid'],
+        roles: ['Support'],
         species: ['Undead'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -984,7 +984,7 @@ export const champions: Champion[] = [
     {
         name: 'Qiyana',
         gender: 'Female',
-        roles: ['Mid'],
+        roles: ['Mid', 'Jungle'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -994,7 +994,7 @@ export const champions: Champion[] = [
     {
         name: 'Quinn',
         gender: 'Female',
-        roles: ['Top', 'Bot'],
+        roles: ['Top'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -1024,7 +1024,7 @@ export const champions: Champion[] = [
     {
         name: "Rek'Sai",
         gender: 'Female',
-        roles: ['Jungle'],
+        roles: ['Jungle', 'Top'],
         species: ['Voidborn'],
         resource: 'Rage',
         rangeType: 'Melee',
@@ -1034,7 +1034,7 @@ export const champions: Champion[] = [
     {
         name: 'Rell',
         gender: 'Female',
-        roles: ['Support', 'Jungle'],
+        roles: ['Support'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -1064,7 +1064,7 @@ export const champions: Champion[] = [
     {
         name: 'Rengar',
         gender: 'Male',
-        roles: ['Jungle', 'Top'],
+        roles: ['Jungle'],
         species: ['Vastaya'],
         resource: 'Ferocity',
         rangeType: 'Melee',
@@ -1074,7 +1074,7 @@ export const champions: Champion[] = [
     {
         name: 'Riven',
         gender: 'Female',
-        roles: ['Top', 'Mid'],
+        roles: ['Top'],
         species: ['Human'],
         resource: 'Manaless',
         rangeType: 'Melee',
@@ -1084,7 +1084,7 @@ export const champions: Champion[] = [
     {
         name: 'Rumble',
         gender: 'Male',
-        roles: ['Top', 'Mid'],
+        roles: ['Top'],
         species: ['Yordle'],
         resource: 'Heat',
         rangeType: 'Melee Ranged',
@@ -1094,7 +1094,7 @@ export const champions: Champion[] = [
     {
         name: 'Samira',
         gender: 'Female',
-        roles: ['Bot', 'Mid'],
+        roles: ['Bot'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee Ranged',
@@ -1104,7 +1104,7 @@ export const champions: Champion[] = [
     {
         name: 'Sejuani',
         gender: 'Female',
-        roles: ['Jungle', 'Top'],
+        roles: ['Jungle'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -1134,7 +1134,7 @@ export const champions: Champion[] = [
     {
         name: 'Sett',
         gender: 'Male',
-        roles: ['Top', 'Mid', 'Support'],
+        roles: ['Top'],
         species: ['Vastaya', 'Human'],
         resource: 'Grit',
         rangeType: 'Melee',
@@ -1284,7 +1284,7 @@ export const champions: Champion[] = [
     {
         name: 'Taliyah',
         gender: 'Female',
-        roles: ['Mid', 'Jungle'],
+        roles: ['Mid'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -1374,7 +1374,7 @@ export const champions: Champion[] = [
     {
         name: 'Twitch',
         gender: 'Male',
-        roles: ['Bot', 'Jungle'],
+        roles: ['Bot'],
         species: ['Other'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -1394,7 +1394,7 @@ export const champions: Champion[] = [
     {
         name: 'Urgot',
         gender: 'Male',
-        roles: ['Top', 'Jungle'],
+        roles: ['Top'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -1404,7 +1404,7 @@ export const champions: Champion[] = [
     {
         name: 'Varus',
         gender: 'Male',
-        roles: ['Bot', 'Mid'],
+        roles: ['Bot'],
         species: ['Darkin', 'Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -1464,7 +1464,7 @@ export const champions: Champion[] = [
     {
         name: 'Viego',
         gender: 'Male',
-        roles: ['Jungle', 'Mid'],
+        roles: ['Jungle'],
         species: ['Undead'],
         resource: 'Mana',
         rangeType: 'Melee',
@@ -1594,7 +1594,7 @@ export const champions: Champion[] = [
     {
         name: 'Zac',
         gender: 'Male',
-        roles: ['Jungle', 'Top'],
+        roles: ['Jungle'],
         species: ['Other'],
         resource: 'Health',
         rangeType: 'Melee',
@@ -1634,7 +1634,7 @@ export const champions: Champion[] = [
     {
         name: 'Zilean',
         gender: 'Male',
-        roles: ['Support', 'Mid'],
+        roles: ['Support'],
         species: ['Human'],
         resource: 'Mana',
         rangeType: 'Ranged',
@@ -1654,7 +1654,7 @@ export const champions: Champion[] = [
     {
         name: 'Zyra',
         gender: 'Female',
-        roles: ['Support', 'Mid'],
+        roles: ['Support', 'Jungle'],
         species: ['Other'],
         resource: 'Mana',
         rangeType: 'Ranged',
