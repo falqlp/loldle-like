@@ -77,7 +77,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   <TableCell sx={{ verticalAlign: 'center', padding: 0 }}>
                     <Box sx={{ position: 'relative', width: 100, height: 100 }}>
                       <img
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/${g.raw}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/15.21.1/img/champion/${g.raw.replace('. ', '').replace("'",'')}.png`}
                         alt={g.raw}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                       />
