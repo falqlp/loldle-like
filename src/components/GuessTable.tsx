@@ -26,6 +26,36 @@ function findClue(clues: Clue[], field: keyof Champion) {
   return clues.find(c => c.field === field);
 }
 
+// Common style to make chips taller and allow multiline labels
+const chipSx = {
+  fontWeight: 600,
+  height: 'auto',
+    width: '100%',
+  minHeight: 50,
+  alignItems: 'center',
+
+  py: 0.5,
+  '& .MuiChip-label': {
+    whiteSpace: 'normal',
+    display: 'block',
+    lineHeight: 1.2,
+    py: 0.25,
+    wordBreak: 'break-word',
+  },
+} as const;
+
+function multilineLabel(value: string) {
+  const parts = value.split(/\s*,\s*/).filter(Boolean);
+  if (parts.length <= 1) return value;
+  return (
+    <Box component="span">
+      {parts.map((p, i) => (
+        <Box key={i} component="span" sx={{ display: 'block' }}>{p}</Box>
+      ))}
+    </Box>
+  );
+}
+
 export default function GuessTable({ guesses }: { guesses: Guess[] }) {
   return (
     <Box sx={{ width: '100%', overflowX: 'auto' }}>
@@ -45,72 +75,72 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
               return (
                 <TableRow key={idx} hover>
                   {/* Name chip */}
-                  <TableCell>
-                    <Chip label={g.raw} color={colorFromStatus(nameStatus)} variant="filled" sx={{ fontWeight: 600 }} />
+                  <TableCell sx={{ verticalAlign: 'top' }}>
+                    <Chip label={g.raw} color={colorFromStatus(nameStatus)} variant="filled" sx={chipSx} />
                   </TableCell>
 
                   {/* Gender */}
-                  <TableCell>
+                  <TableCell sx={{ verticalAlign: 'top' }}>
                     {(() => {
                       const c = findClue(g.clues, 'gender');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={{ fontWeight: 600 }} />
+                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
                       ) : null;
                     })()}
                   </TableCell>
 
                   {/* Roles */}
-                  <TableCell>
+                  <TableCell sx={{ verticalAlign: 'top' }}>
                     {(() => {
                       const c = findClue(g.clues, 'roles');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={{ fontWeight: 600 }} />
+                        <Chip label={multilineLabel(String(c.value))} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
                       ) : null;
                     })()}
                   </TableCell>
 
                   {/* Species */}
-                  <TableCell>
+                  <TableCell sx={{ verticalAlign: 'top' }}>
                     {(() => {
                       const c = findClue(g.clues, 'species');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={{ fontWeight: 600 }} />
+                        <Chip label={multilineLabel(String(c.value))} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
                       ) : null;
                     })()}
                   </TableCell>
 
                   {/* Resource */}
-                  <TableCell>
+                  <TableCell sx={{ verticalAlign: 'top' }}>
                     {(() => {
                       const c = findClue(g.clues, 'resource');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={{ fontWeight: 600 }} />
+                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
                       ) : null;
                     })()}
                   </TableCell>
 
                   {/* RangeType */}
-                  <TableCell>
+                  <TableCell sx={{ verticalAlign: 'top' }}>
                     {(() => {
                       const c = findClue(g.clues, 'rangeType');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={{ fontWeight: 600 }} />
+                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
                       ) : null;
                     })()}
                   </TableCell>
 
                   {/* Regions */}
-                  <TableCell>
+                  <TableCell sx={{ verticalAlign: 'top' }}>
                     {(() => {
                       const c = findClue(g.clues, 'regions');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={{ fontWeight: 600 }} />
+                        <Chip label={multilineLabel(String(c.value))} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
                       ) : null;
                     })()}
                   </TableCell>
 
                   {/* Release Year with arrow/tooltip when needed */}
-                  <TableCell>
+                  <TableCell sx={{ verticalAlign: 'top' }}>
                     {yearClue ? (() => {
                       const isExact = yearClue.status === 'correct';
                       const showArrow = !isExact && yearClue.direction;
@@ -121,7 +151,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                           color={colorFromStatus(yearClue.status)}
                           variant="filled"
                           icon={icon}
-                          sx={{ fontWeight: 600 }}
+                          sx={chipSx}
                         />
                       );
                       const tooltip = showArrow ? (yearClue.direction === 'newer' ? 'La bonne année est plus récente' : 'La bonne année est plus ancienne') : undefined;

@@ -1147,7 +1147,7 @@ export const CHAMPIONS: Champion[] = [
         roles: ['Jungle', 'Support'],
         species: ['Demon'],
         resource: 'Mana',
-        rangeType: 'Melee Ranged',
+        rangeType: 'Melee',
         regions: ['Runeterra'],
         releaseYear: 2009
     },

@@ -8,45 +8,57 @@ type Guess = { raw: string; clues: Clue[] };
 type GameState = {
     answer: Champion;
     guesses: Guess[];
-    maxGuesses: number;
     reset: () => void;
-    tryGuess: (name: string) => 'win' | 'continue' | 'invalid' | 'lose';
+    tryGuess: (name: string) => 'win' | 'continue' | 'invalid';
 };
 
-function arraysEqualIgnoreOrder<T>(a: T[], b: T[]) {
+function arraysEqualIgnoreOrder<T extends string>(a: T[], b: T[]) {
     if (a.length !== b.length) return false;
     const as = [...a].sort();
     const bs = [...b].sort();
     return as.every((v, i) => v === bs[i]);
 }
 
-function intersectionCount<T>(a: T[], b: T[]) {
-    const setB = new Set(b as T[]);
-    return (a as T[]).filter(x => setB.has(x)).length;
+function intersectionCount<T extends string>(a: T[], b: T[]) {
+    const setB = new Set(b);
+    return a.filter(x => setB.has(x)).length;
+}
+
+type ArrayFields = 'roles' | 'species' | 'regions';
+type NameField = 'name';
+type YearField = 'releaseYear';
+type ScalarFields = Exclude<keyof Champion, ArrayFields | NameField | YearField>;
+
+const arrayFields: ArrayFields[] = ['roles', 'species', 'regions'];
+function isArrayField(k: keyof Champion): k is ArrayFields {
+    return (arrayFields as readonly string[]).includes(k as string);
+}
+function isNameField(k: keyof Champion): k is NameField {
+    return k === 'name';
+}
+function isYearField(k: keyof Champion): k is YearField {
+    return k === 'releaseYear';
 }
 
 function computeClues(ans: Champion, cand: Champion): Clue[] {
     const fields = ['name','gender','roles','species','resource','rangeType','regions','releaseYear'] as (keyof Champion)[];
     return fields.map((k) => {
-        const av = ans[k] as any;
-        const cv = cand[k] as any;
-
-        if (k === 'name') {
+        if (isNameField(k)) {
             return { field: k, value: cand.name, status: cand.name === ans.name ? 'correct' : 'wrong' };
         }
 
-        if (k === 'releaseYear') {
+        if (isYearField(k)) {
+            const av = ans.releaseYear;
+            const cv = cand.releaseYear;
             if (cv === av) return { field: k, value: cv, status: 'correct', direction: null };
-            const diff = Number(av) - Number(cv);
-            const direction = diff > 0 ? 'newer' : 'older'; // relative to the candidate year
-            // « close » si à ±1 an
-            const close = Math.abs(diff) <= 1;
-            return { field: k, value: cv, status: close ? 'close' : 'wrong', direction };
+            const diff = av - cv;
+            const direction: 'older' | 'newer' = diff > 0 ? 'newer' : 'older';
+            return { field: k, value: cv, status: 'wrong', direction };
         }
 
-        if (k === 'roles' || k === 'species' || k === 'regions') {
-            const aArr = av as string[];
-            const cArr = cv as string[];
+        if (isArrayField(k)) {
+            const aArr = ans[k];
+            const cArr = cand[k];
             const value = (cArr ?? []).join(', ');
             if (!Array.isArray(aArr) || !Array.isArray(cArr)) {
                 return { field: k, value, status: 'wrong' };
@@ -58,15 +70,17 @@ function computeClues(ans: Champion, cand: Champion): Clue[] {
             return { field: k, value, status: inter > 0 ? 'close' : 'wrong' };
         }
 
-        // Champs scalaires simples
-        return { field: k, value: String(cv), status: cv === av ? 'correct' : 'wrong' };
+        // Champs scalaires simples (strings)
+        const kk = k as ScalarFields;
+        const av = ans[kk];
+        const cv = cand[kk];
+        return { field: k, value: cv, status: cv === av ? 'correct' : 'wrong' };
     });
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
     answer: CHAMPIONS[Math.floor(Math.random() * CHAMPIONS.length)],
     guesses: [],
-    maxGuesses: 6,
     reset: () => set({
         answer: CHAMPIONS[Math.floor(Math.random() * CHAMPIONS.length)],
         guesses: []
@@ -75,11 +89,10 @@ export const useGameStore = create<GameState>((set, get) => ({
         const cand = CHAMPIONS.find(c => c.name.toLowerCase() === name.trim().toLowerCase());
         if (!cand) return 'invalid';
         const clues = computeClues(get().answer, cand);
-        const guesses = [...get().guesses, { raw: cand.name, clues }];
+        const guesses = [{ raw: cand.name, clues }, ...get().guesses];
         const win = cand.name === get().answer.name;
         set({ guesses });
         if (win) return 'win';
-        if (guesses.length >= get().maxGuesses) return 'lose';
         return 'continue';
     },
 }));
