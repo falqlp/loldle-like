@@ -1,10 +1,25 @@
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Tooltip } from '@mui/material';
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
+  Tooltip,
+} from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import type { Champion } from '../data/champions';
 
 // Keep a local Clue type aligned with the store's shape
-export type Clue = { field: keyof Champion; value: string | number; status: 'correct'|'close'|'wrong'; direction?: 'older' | 'newer' | null };
+export type Clue = {
+  field: keyof Champion;
+  value: string | number;
+  status: 'correct' | 'close' | 'wrong';
+  direction?: 'older' | 'newer' | null;
+};
 export type Guess = { raw: string; clues: Clue[] };
 
 const columns: { key: keyof Champion | 'nameChip'; label: string }[] = [
@@ -15,7 +30,7 @@ const columns: { key: keyof Champion | 'nameChip'; label: string }[] = [
   { key: 'resource', label: 'Ressource' },
   { key: 'rangeType', label: 'Portée' },
   { key: 'regions', label: 'Régions' },
-  { key: 'releaseYear', label: "Année" },
+  { key: 'releaseYear', label: 'Année' },
 ];
 
 function colorFromStatus(s: Clue['status']) {
@@ -30,7 +45,7 @@ function findClue(clues: Clue[], field: keyof Champion) {
 const chipSx = {
   fontWeight: 600,
   height: 'auto',
-    width: '100%',
+  width: '100%',
   minHeight: 50,
   alignItems: 'center',
 
@@ -49,7 +64,9 @@ function multilineLabel(value: string) {
   return (
     <Box component="span">
       {parts.map((p, i) => (
-        <Box key={i} component="span" sx={{ display: 'block' }}>{p}</Box>
+        <Box key={i} component="span" sx={{ display: 'block' }}>
+          {p}
+        </Box>
       ))}
     </Box>
   );
@@ -63,7 +80,9 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
           <TableHead>
             <TableRow>
               {columns.map(col => (
-                <TableCell key={String(col.key)} sx={{ fontWeight: 700 }}>{col.label}</TableCell>
+                <TableCell key={String(col.key)} sx={{ fontWeight: 700 }}>
+                  {col.label}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -77,9 +96,14 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   <TableCell sx={{ verticalAlign: 'center', padding: 0 }}>
                     <Box sx={{ position: 'relative', width: 100, height: 100 }}>
                       <img
-                        src={`https://ddragon.leagueoflegends.com/cdn/15.21.1/img/champion/${g.raw.replace('. ', '').replace("'",'')}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/15.21.1/img/champion/${g.raw.replace('. ', '').replace("'", '')}.png`}
                         alt={g.raw}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
                       />
                       <Chip
                         label={g.raw}
@@ -113,7 +137,12 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                     {(() => {
                       const c = findClue(g.clues, 'gender');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
+                        <Chip
+                          label={String(c.value)}
+                          color={colorFromStatus(c.status)}
+                          variant="filled"
+                          sx={chipSx}
+                        />
                       ) : null;
                     })()}
                   </TableCell>
@@ -123,7 +152,12 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                     {(() => {
                       const c = findClue(g.clues, 'roles');
                       return c ? (
-                        <Chip label={multilineLabel(String(c.value))} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
+                        <Chip
+                          label={multilineLabel(String(c.value))}
+                          color={colorFromStatus(c.status)}
+                          variant="filled"
+                          sx={chipSx}
+                        />
                       ) : null;
                     })()}
                   </TableCell>
@@ -133,7 +167,12 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                     {(() => {
                       const c = findClue(g.clues, 'species');
                       return c ? (
-                        <Chip label={multilineLabel(String(c.value))} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
+                        <Chip
+                          label={multilineLabel(String(c.value))}
+                          color={colorFromStatus(c.status)}
+                          variant="filled"
+                          sx={chipSx}
+                        />
                       ) : null;
                     })()}
                   </TableCell>
@@ -143,7 +182,12 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                     {(() => {
                       const c = findClue(g.clues, 'resource');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
+                        <Chip
+                          label={String(c.value)}
+                          color={colorFromStatus(c.status)}
+                          variant="filled"
+                          sx={chipSx}
+                        />
                       ) : null;
                     })()}
                   </TableCell>
@@ -153,7 +197,12 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                     {(() => {
                       const c = findClue(g.clues, 'rangeType');
                       return c ? (
-                        <Chip label={String(c.value)} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
+                        <Chip
+                          label={String(c.value)}
+                          color={colorFromStatus(c.status)}
+                          variant="filled"
+                          sx={chipSx}
+                        />
                       ) : null;
                     })()}
                   </TableCell>
@@ -163,29 +212,46 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                     {(() => {
                       const c = findClue(g.clues, 'regions');
                       return c ? (
-                        <Chip label={multilineLabel(String(c.value))} color={colorFromStatus(c.status)} variant="filled" sx={chipSx} />
+                        <Chip
+                          label={multilineLabel(String(c.value))}
+                          color={colorFromStatus(c.status)}
+                          variant="filled"
+                          sx={chipSx}
+                        />
                       ) : null;
                     })()}
                   </TableCell>
 
                   {/* Release Year with arrow/tooltip when needed */}
                   <TableCell sx={{ verticalAlign: 'center' }}>
-                    {yearClue ? (() => {
-                      const isExact = yearClue.status === 'correct';
-                      const showArrow = !isExact && yearClue.direction;
-                      const icon = showArrow ? (yearClue.direction === 'newer' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />) : undefined;
-                      const chip = (
-                        <Chip
-                          label={String(yearClue.value)}
-                          color={colorFromStatus(yearClue.status)}
-                          variant="filled"
-                          icon={icon}
-                          sx={chipSx}
-                        />
-                      );
-                      const tooltip = showArrow ? (yearClue.direction === 'newer' ? 'La bonne année est plus récente' : 'La bonne année est plus ancienne') : undefined;
-                      return tooltip ? <Tooltip title={tooltip}>{chip}</Tooltip> : chip;
-                    })() : null}
+                    {yearClue
+                      ? (() => {
+                          const isExact = yearClue.status === 'correct';
+                          const showArrow = !isExact && yearClue.direction;
+                          const icon = showArrow ? (
+                            yearClue.direction === 'newer' ? (
+                              <ArrowUpwardIcon />
+                            ) : (
+                              <ArrowDownwardIcon />
+                            )
+                          ) : undefined;
+                          const chip = (
+                            <Chip
+                              label={String(yearClue.value)}
+                              color={colorFromStatus(yearClue.status)}
+                              variant="filled"
+                              icon={icon}
+                              sx={chipSx}
+                            />
+                          );
+                          const tooltip = showArrow
+                            ? yearClue.direction === 'newer'
+                              ? 'La bonne année est plus récente'
+                              : 'La bonne année est plus ancienne'
+                            : undefined;
+                          return tooltip ? <Tooltip title={tooltip}>{chip}</Tooltip> : chip;
+                        })()
+                      : null}
                   </TableCell>
                 </TableRow>
               );

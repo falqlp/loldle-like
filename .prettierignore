@@ -1,0 +1,18 @@
+# Output and dependencies
+node_modules
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+dist
+build
+coverage
+.next
+out
+
+# Vite cache
+.vite
+
+# Env and misc
+.env*
+.DS_Store
+*.log
