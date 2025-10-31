@@ -13,7 +13,7 @@ export default function GameBoard() {
                 <Typography variant="h6">Devine le champion</Typography>
                 {won && <Alert severity="success">Bravo ! Réponse : {answer.name}</Alert>}
                 <GuessTable guesses={guesses} />
-                {won && <Box><Button onClick={reset} variant="outlined">Rejouer</Button></Box>}
+                <Box><Button onClick={reset} variant="outlined">Rejouer</Button></Box>
             </Stack>
         </Paper>
     );

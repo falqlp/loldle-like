@@ -40,7 +40,6 @@ const chipSx = {
     display: 'block',
     lineHeight: 1.2,
     py: 0.25,
-    wordBreak: 'break-word',
   },
 } as const;
 
@@ -74,13 +73,43 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
               const yearClue = findClue(g.clues, 'releaseYear');
               return (
                 <TableRow key={idx} hover>
-                  {/* Name chip */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
-                    <Chip label={g.raw} color={colorFromStatus(nameStatus)} variant="filled" sx={chipSx} />
+                  {/* Name chip over image */}
+                  <TableCell sx={{ verticalAlign: 'center', padding: 0 }}>
+                    <Box sx={{ position: 'relative', width: 100, height: 100 }}>
+                      <img
+                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/${g.raw}.png`}
+                        alt={g.raw}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                      <Chip
+                        label={g.raw}
+                        color={colorFromStatus(nameStatus)}
+                        variant="filled"
+                        sx={{
+                          position: 'absolute',
+                          zIndex: 1,
+                          bottom: 4,
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: 'calc(100% - 8px)',
+                          maxWidth: 'calc(100% - 8px)',
+                          height: 'auto',
+                          minHeight: 'unset',
+                          fontWeight: 600,
+                          px: 1,
+                          '& .MuiChip-label': {
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            lineHeight: 1.2,
+                          },
+                        }}
+                      />
+                    </Box>
                   </TableCell>
 
                   {/* Gender */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
+                  <TableCell sx={{ verticalAlign: 'center' }}>
                     {(() => {
                       const c = findClue(g.clues, 'gender');
                       return c ? (
@@ -90,7 +119,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   </TableCell>
 
                   {/* Roles */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
+                  <TableCell sx={{ verticalAlign: 'center' }}>
                     {(() => {
                       const c = findClue(g.clues, 'roles');
                       return c ? (
@@ -100,7 +129,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   </TableCell>
 
                   {/* Species */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
+                  <TableCell sx={{ verticalAlign: 'center' }}>
                     {(() => {
                       const c = findClue(g.clues, 'species');
                       return c ? (
@@ -110,7 +139,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   </TableCell>
 
                   {/* Resource */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
+                  <TableCell sx={{ verticalAlign: 'center' }}>
                     {(() => {
                       const c = findClue(g.clues, 'resource');
                       return c ? (
@@ -120,7 +149,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   </TableCell>
 
                   {/* RangeType */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
+                  <TableCell sx={{ verticalAlign: 'center' }}>
                     {(() => {
                       const c = findClue(g.clues, 'rangeType');
                       return c ? (
@@ -130,7 +159,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   </TableCell>
 
                   {/* Regions */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
+                  <TableCell sx={{ verticalAlign: 'center' }}>
                     {(() => {
                       const c = findClue(g.clues, 'regions');
                       return c ? (
@@ -140,7 +169,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   </TableCell>
 
                   {/* Release Year with arrow/tooltip when needed */}
-                  <TableCell sx={{ verticalAlign: 'top' }}>
+                  <TableCell sx={{ verticalAlign: 'center' }}>
                     {yearClue ? (() => {
                       const isExact = yearClue.status === 'correct';
                       const showArrow = !isExact && yearClue.direction;

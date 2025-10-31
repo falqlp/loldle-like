@@ -9,7 +9,7 @@ type GameState = {
     answer: Champion;
     guesses: Guess[];
     reset: () => void;
-    tryGuess: (name: string) => 'win' | 'continue' | 'invalid';
+    tryGuess: (name: string) => 'win' | 'continue' | 'invalid' | 'duplicate';
 };
 
 function arraysEqualIgnoreOrder<T extends string>(a: T[], b: T[]) {
@@ -88,6 +88,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     tryGuess: (name: string) => {
         const cand = CHAMPIONS.find(c => c.name.toLowerCase() === name.trim().toLowerCase());
         if (!cand) return 'invalid';
+
+        // Prevent duplicate guesses (case-insensitive)
+        const already = get().guesses.some(g => g.raw.toLowerCase() === cand.name.toLowerCase());
+        if (already) return 'duplicate';
+
         const clues = computeClues(get().answer, cand);
         const guesses = [{ raw: cand.name, clues }, ...get().guesses];
         const win = cand.name === get().answer.name;
