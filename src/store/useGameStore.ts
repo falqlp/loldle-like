@@ -2,6 +2,36 @@ import { create } from 'zustand';
 import { type Champion } from '../data/champions';
 import { CHAMPIONS } from '../data/championsData.ts';
 
+const STORAGE_KEY = 'loldle_like_stats_v1';
+
+function safeLoadStats(): number[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.every(n => typeof n === 'number' && isFinite(n))) {
+      return parsed as number[];
+    }
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+function saveStats(stats: number[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+  } catch {
+    // ignore quota or privacy errors
+  }
+}
+
+function avg(nums: number[]) {
+  if (!nums.length) return 0;
+  const s = nums.reduce((a, b) => a + b, 0);
+  return Math.round((s / nums.length) * 100) / 100; // 2 decimals
+}
+
 type Clue = {
   field: keyof Champion;
   value: string | number;
@@ -13,8 +43,14 @@ type Guess = { raw: string; clues: Clue[] };
 type GameState = {
   answer: Champion;
   guesses: Guess[];
+  // Historique du nombre d'essais par partie gagnée
+  stats: number[];
+  // Moyenne arrondie à 2 décimales du nombre d'essais
+  average: number;
   reset: () => void;
   tryGuess: (name: string) => 'win' | 'continue' | 'invalid' | 'duplicate';
+  // Enregistre une victoire avec le nombre d'essais effectués
+  recordWin: (attempts: number) => void;
 };
 
 function arraysEqualIgnoreOrder<T extends string>(a: T[], b: T[]) {
@@ -92,14 +128,23 @@ function computeClues(ans: Champion, cand: Champion): Clue[] {
   });
 }
 
+const initialStats = safeLoadStats();
+
 export const useGameStore = create<GameState>((set, get) => ({
   answer: CHAMPIONS[Math.floor(Math.random() * CHAMPIONS.length)],
   guesses: [],
+  stats: initialStats,
+  average: avg(initialStats),
   reset: () =>
     set({
       answer: CHAMPIONS[Math.floor(Math.random() * CHAMPIONS.length)],
       guesses: [],
     }),
+  recordWin: (attempts: number) => {
+    const next = [...get().stats, attempts];
+    saveStats(next);
+    set({ stats: next, average: avg(next) });
+  },
   tryGuess: (name: string) => {
     const cand = CHAMPIONS.find(c => c.name.toLowerCase() === name.trim().toLowerCase());
     if (!cand) return 'invalid';
@@ -112,7 +157,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     const guesses = [{ raw: cand.name, clues }, ...get().guesses];
     const win = cand.name === get().answer.name;
     set({ guesses });
-    if (win) return 'win';
+    if (win) {
+      // attempts = number of guesses for this round
+      get().recordWin(guesses.length);
+      return 'win';
+    }
     return 'continue';
   },
 }));

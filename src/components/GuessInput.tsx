@@ -13,7 +13,12 @@ export default function GuessInput() {
   // Filter options to hide already-guessed champions
   const options = useMemo(() => {
     const guessed = new Set(guesses.map(g => g.raw.toLowerCase()));
-    return CHAMPIONS.map(c => c.name).filter(n => !guessed.has(n.toLowerCase()));
+    const locale = typeof navigator !== 'undefined'
+      ? (navigator.languages?.[0] || navigator.language)
+      : undefined;
+    return CHAMPIONS.map(c => c.name)
+      .filter(n => !guessed.has(n.toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, locale, { sensitivity: 'base' }));
   }, [guesses]);
 
   const submitGuess = (name: string) => {

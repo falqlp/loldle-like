@@ -33,6 +33,16 @@ const columns: { key: keyof Champion | 'nameChip'; label: string }[] = [
   { key: 'releaseYear', label: 'Année' },
 ];
 
+const champUrlName: Record<string, string> = {
+  "Kai'Sa": 'Kaisa',
+  "Bel'Veth": 'Belveth',
+  "Cho'Gath": 'Chogath',
+  "Kha'Zix": 'Khazix',
+  "Vel'Koz": 'Velkoz',
+  LeBlanc: 'Leblanc',
+  'Nunu & Willump': 'Nunu',
+};
+
 function colorFromStatus(s: Clue['status']) {
   return s === 'correct' ? 'success' : s === 'close' ? 'warning' : 'error';
 }
@@ -72,6 +82,12 @@ function multilineLabel(value: string) {
   );
 }
 
+function getImgUrl(champName: string) {
+  console.log(champName);
+  const name = champUrlName[champName] || champName;
+  return `https://ddragon.leagueoflegends.com/cdn/15.21.1/img/champion/${name.replace('. ', '').replace("'", '').replace(' ', '')}.png`;
+}
+
 export default function GuessTable({ guesses }: { guesses: Guess[] }) {
   return (
     <Box sx={{ width: '100%', overflowX: 'auto' }}>
@@ -96,7 +112,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                   <TableCell sx={{ verticalAlign: 'center', padding: 0 }}>
                     <Box sx={{ position: 'relative', width: 100, height: 100 }}>
                       <img
-                        src={`https://ddragon.leagueoflegends.com/cdn/15.21.1/img/champion/${g.raw.replace('. ', '').replace("'", '')}.png`}
+                        src={getImgUrl(g.raw)}
                         alt={g.raw}
                         style={{
                           width: '100%',
