@@ -3,7 +3,7 @@ const fr = {
   mode_training: 'Quotidien',
   mode_daily: 'Entraînement',
 
-  daily_label: 'Daily (UTC) — {{date}}',
+  daily_label: 'Quotidien (UTC) — {{date}}',
   daily_done_today: " • déjà complété aujourd'hui",
 
   status_in_progress: 'Partie en cours',
@@ -11,11 +11,11 @@ const fr = {
   status_avg: ' • Moyenne ({{mode}}): {{avg}} {{triesLabel}} (sur {{wins}} {{winsLabel}})',
 
   share_need_try: 'Fais au moins un essai pour pouvoir partager',
-  share_copy_daily: 'Copier le résultat du Daily',
+  share_copy_daily: 'Copier le résultat du Quotidien',
   copy_result: 'Copier le résultat',
   clipboard_error: 'Impossible de copier dans le presse-papiers',
 
-  reset_daily_done: 'Daily déjà complété (UTC) — réinitialisation désactivée',
+  reset_daily_done: 'Quotidien déjà complété (UTC) — réinitialisation désactivée',
   reset_daily_hint: 'Réinitialise les essais, la réponse du jour reste la même',
   reset_training_hint: 'Nouvelle partie avec une nouvelle réponse aléatoire',
   play_again: 'Rejouer',
@@ -47,7 +47,7 @@ const fr = {
 
   // Share header
   share_header:
-    "J'ai trouvé le champion #LoLdleLike en mode Daily en {{attempts}} {{attemptsLabel}} ⚔️",
+    "J'ai trouvé le champion #LoLdleLike en mode Quotidien en {{attempts}} {{attemptsLabel}} ⚔️",
 } as const;
 
 export default fr;
