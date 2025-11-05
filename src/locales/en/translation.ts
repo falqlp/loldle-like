@@ -52,6 +52,48 @@ const en = {
   //Game mode
   daily: 'Daily',
   training: 'Training',
+
+  // Resources translations
+  resources: {
+    Mana: 'Mana',
+    Energy: 'Energy',
+    Fury: 'Fury',
+    Rage: 'Rage',
+    Heat: 'Heat',
+    Grit: 'Grit',
+    Shield: 'Shield',
+    Manaless: 'Manaless',
+    Ferocity: 'Ferocity',
+    Flow: 'Flow',
+    Health: 'Health',
+    Courage: 'Courage',
+    Other: 'Other',
+  },
+
+  // Species translations
+  species: {
+    Human: 'Human',
+    Vastaya: 'Vastaya',
+    Yordle: 'Yordle',
+    Celestial: 'Celestial',
+    Dragon: 'Dragon',
+    Spirit: 'Spirit',
+    Undead: 'Undead',
+    Golem: 'Golem',
+    Brackern: 'Brackern',
+    Minotaur: 'Minotaur',
+    Troll: 'Troll',
+    Ascended: 'Ascended',
+    Darkin: 'Darkin',
+    Voidborn: 'Voidborn',
+    Watcher: 'Watcher',
+    God: 'God',
+    Demon: 'Demon',
+    Yeti: 'Yeti',
+    Iceborn: 'Iceborn',
+    Magicborn: 'Magicborn',
+    Other: 'Other',
+  },
 } as const;
 
 export default en;

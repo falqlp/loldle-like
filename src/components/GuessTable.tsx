@@ -186,7 +186,13 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                       const c = findClue(g.clues, 'species');
                       return c ? (
                         <Chip
-                          label={multilineLabel(String(c.value))}
+                          label={multilineLabel(
+                            String(c.value)
+                              .split(/\s*,\s*/)
+                              .filter(Boolean)
+                              .map(s => t('species.' + s))
+                              .join(', ')
+                          )}
                           color={colorFromStatus(c.status)}
                           variant="filled"
                           sx={chipSx}
@@ -201,7 +207,7 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                       const c = findClue(g.clues, 'resource');
                       return c ? (
                         <Chip
-                          label={String(c.value)}
+                          label={t('resources.' + String(c.value))}
                           color={colorFromStatus(c.status)}
                           variant="filled"
                           sx={chipSx}

@@ -48,6 +48,48 @@ const fr = {
   // Share header
   share_header:
     "J'ai trouvé le champion #LoLdleLike en mode Quotidien en {{attempts}} {{attemptsLabel}} ⚔️",
+
+  // Resources translations
+  resources: {
+    Mana: 'Mana',
+    Energy: 'Énergie',
+    Fury: 'Fureur',
+    Rage: 'Rage',
+    Heat: 'Chaleur',
+    Grit: 'Aplomb',
+    Shield: 'Bouclier',
+    Manaless: 'Sans ressource',
+    Ferocity: 'Férocité',
+    Flow: 'Flux',
+    Health: 'Vie',
+    Courage: 'Courage',
+    Other: 'Autre',
+  },
+
+  // Species translations
+  species: {
+    Human: 'Humain',
+    Vastaya: 'Vastaya',
+    Yordle: 'Yordle',
+    Celestial: 'Céleste',
+    Dragon: 'Dragon',
+    Spirit: 'Esprit',
+    Undead: 'Mort-vivant',
+    Golem: 'Golem',
+    Brackern: 'Brackern',
+    Minotaur: 'Minotaure',
+    Troll: 'Troll',
+    Ascended: 'Transfiguré',
+    Darkin: 'Darkin',
+    Voidborn: 'Né du Néant',
+    Watcher: 'Veilleur',
+    God: 'Dieu',
+    Demon: 'Démon',
+    Yeti: 'Yéti',
+    Iceborn: 'Né de glace',
+    Magicborn: 'Né de magie',
+    Other: 'Autre',
+  },
 } as const;
 
 export default fr;
