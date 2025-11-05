@@ -2,8 +2,10 @@ import { useState, useMemo } from 'react';
 import { Autocomplete, TextField, Box } from '@mui/material';
 import { useGameStore } from '../store/useGameStore';
 import { CHAMPIONS } from '../data/championsData';
+import { useTranslation } from 'react-i18next';
 
 export default function GuessInput() {
+  const { t } = useTranslation();
   // inputValue controls the text in the input; selected controls the chosen option
   const [inputValue, setInputValue] = useState<string>('');
   const [selected, setSelected] = useState<string | null>(null);
@@ -23,8 +25,8 @@ export default function GuessInput() {
 
   const submitGuess = (name: string) => {
     const result = tryGuess(name);
-    if (result === 'invalid') alert('Champion inconnu');
-    if (result === 'duplicate') alert('Champion déjà proposé');
+    if (result === 'invalid') alert(t('alert_unknown'));
+    if (result === 'duplicate') alert(t('alert_duplicate'));
     // Clear both the displayed text and the selected option
     setInputValue('');
     setSelected(null);
@@ -42,7 +44,7 @@ export default function GuessInput() {
           if (v) submitGuess(v);
           else setSelected(null);
         }}
-        renderInput={params => <TextField {...params} label="Entre un champion" />}
+        renderInput={params => <TextField {...params} label={t('input_placeholder')} />}
         sx={{ flex: 1 }}
       />
     </Box>

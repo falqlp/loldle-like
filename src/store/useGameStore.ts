@@ -5,6 +5,7 @@ import { getUTCDateString } from './utils/date';
 import { dailyIndexFor } from './utils/hash';
 import { avg } from './utils/stats';
 import { buildShareGridRows } from './utils/share';
+import i18n from '../i18n';
 import { computeClues } from './utils/clues';
 import { safeLoadV2, saveV2, type PersistedV2 } from './utils/storage';
 
@@ -65,7 +66,8 @@ export const useGameStore = create<GameState>((set, get) => {
       const attempts = tries > 0 ? tries : todayGuesses.length;
       const gridRows = buildShareGridRows(todayGuesses.slice(0, attempts));
       const url = typeof window !== 'undefined' ? window.location.origin : 'https://example.com';
-      const header = `J'ai trouvé le champion #LoLdleLike en mode Daily en ${attempts} ${attempts > 1 ? 'coups' : 'coup'} ⚔️`;
+      const attemptsLabel = i18n.t(attempts === 1 ? 'attempt_one' : 'attempt_other');
+      const header = i18n.t('share_header', { attempts, attemptsLabel });
       return [header, ...gridRows, '', url].join('\n');
     },
 

@@ -12,6 +12,7 @@ import {
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import type { Champion } from '../data/champions';
+import { useTranslation } from 'react-i18next';
 
 // Keep a local Clue type aligned with the store's shape
 export type Clue = {
@@ -21,17 +22,6 @@ export type Clue = {
   direction?: 'older' | 'newer' | null;
 };
 export type Guess = { raw: string; clues: Clue[] };
-
-const columns: { key: keyof Champion | 'nameChip'; label: string }[] = [
-  { key: 'nameChip', label: 'Nom' },
-  { key: 'gender', label: 'Genre' },
-  { key: 'roles', label: 'Rôles' },
-  { key: 'species', label: 'Espèces' },
-  { key: 'resource', label: 'Ressource' },
-  { key: 'rangeType', label: 'Portée' },
-  { key: 'regions', label: 'Régions' },
-  { key: 'releaseYear', label: 'Année' },
-];
 
 const champUrlName: Record<string, string> = {
   "Kai'Sa": 'Kaisa',
@@ -89,6 +79,18 @@ function getImgUrl(champName: string) {
 }
 
 export default function GuessTable({ guesses }: { guesses: Guess[] }) {
+  const { t } = useTranslation();
+  const columns: { key: keyof Champion | 'nameChip'; label: string }[] = [
+    { key: 'nameChip', label: t('col_name') },
+    { key: 'gender', label: t('col_gender') },
+    { key: 'roles', label: t('col_roles') },
+    { key: 'species', label: t('col_species') },
+    { key: 'resource', label: t('col_resource') },
+    { key: 'rangeType', label: t('col_range') },
+    { key: 'regions', label: t('col_regions') },
+    { key: 'releaseYear', label: t('col_year') },
+  ];
+
   return (
     <Box sx={{ width: '100%', overflowX: 'auto' }}>
       <TableContainer>
@@ -262,8 +264,8 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
                           );
                           const tooltip = showArrow
                             ? yearClue.direction === 'newer'
-                              ? 'La bonne année est plus récente'
-                              : 'La bonne année est plus ancienne'
+                              ? t('year_more_recent')
+                              : t('year_older')
                             : undefined;
                           return tooltip ? <Tooltip title={tooltip}>{chip}</Tooltip> : chip;
                         })()

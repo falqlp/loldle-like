@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useGameStore } from '../store/useGameStore';
 import GuessTable from './GuessTable';
+import { useTranslation } from 'react-i18next';
 
 function getUTCDateString(d = new Date()): string {
   const y = d.getUTCFullYear();
@@ -19,6 +20,7 @@ function getUTCDateString(d = new Date()): string {
 }
 
 export default function GameBoard() {
+  const { t } = useTranslation();
   const { guesses, answer, reset, average, stats, mode, setMode, dailyCompletedDateUTC } =
     useGameStore();
   const last = guesses[guesses.length - 1];
@@ -29,11 +31,15 @@ export default function GameBoard() {
   const todayUTC = getUTCDateString();
   const dailyDoneToday = mode === 'daily' && dailyCompletedDateUTC === todayUTC;
 
+  const triesLabel = t(guesses.length === 1 ? 'try_one' : 'try_other');
+  const avgTryLabel = t(avgForMode > 1 ? 'try_other' : 'try_one');
+  const winsLabel = t(victoriesCount === 1 ? 'win_one' : 'win_other');
+
   return (
     <Paper sx={{ p: 2 }}>
       <Stack spacing={2}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography variant="h6">Devine le champion</Typography>
+          <Typography variant="h6">{t('title')}</Typography>
           <ToggleButtonGroup
             size="small"
             color="primary"
@@ -41,15 +47,15 @@ export default function GameBoard() {
             exclusive
             onChange={(_, v) => v && setMode(v)}
           >
-            <ToggleButton value="training">Training</ToggleButton>
-            <ToggleButton value="daily">Daily</ToggleButton>
+            <ToggleButton value="training">{t('mode_training')}</ToggleButton>
+            <ToggleButton value="daily">{t('mode_daily')}</ToggleButton>
           </ToggleButtonGroup>
         </Box>
 
         {mode === 'daily' && (
           <Typography variant="body2" color="text.secondary">
-            Daily (UTC) — {todayUTC}
-            {dailyDoneToday ? " • déjà complété aujourd'hui" : ''}
+            {t('daily_label', { date: todayUTC })}
+            {dailyDoneToday ? t('daily_done_today') : ''}
           </Typography>
         )}
 
@@ -61,22 +67,20 @@ export default function GameBoard() {
         >
           <Typography variant="body2" color="text.secondary">
             {won ? (
-              <>
-                Réponse : {answer.name} en {guesses.length} essais
-              </>
+              <>{t('status_answer', { name: answer.name, tries: guesses.length, triesLabel })}</>
             ) : (
-              <>Partie en cours</>
+              <>{t('status_in_progress')}</>
             )}
-            {` • Moyenne (${mode}): ${avgForMode.toFixed(2)} essais (sur ${victoriesCount} victoire${victoriesCount > 1 ? 's' : ''})`}
+            {t('status_avg', {
+              mode: mode === 'daily' ? t('mode_daily') : t('mode_training'),
+              avg: avgForMode.toFixed(2),
+              triesLabel: avgTryLabel,
+              wins: victoriesCount,
+              winsLabel,
+            })}
           </Typography>
           {mode === 'daily' && (
-            <Tooltip
-              title={
-                guesses.length === 0
-                  ? 'Fais au moins un essai pour pouvoir partager'
-                  : 'Copier le résultat du Daily'
-              }
-            >
+            <Tooltip title={guesses.length === 0 ? t('share_need_try') : t('share_copy_daily')}>
               <span>
                 <Button
                   size="small"
@@ -85,12 +89,12 @@ export default function GameBoard() {
                       const text = useGameStore.getState().buildDailyShareText();
                       await navigator.clipboard.writeText(text);
                     } catch (e) {
-                      alert('Impossible de copier dans le presse-papiers' + e);
+                      alert(t('clipboard_error') + String(e));
                     }
                   }}
                   disabled={guesses.length === 0}
                 >
-                  Copier le résultat
+                  {t('copy_result')}
                 </Button>
               </span>
             </Tooltip>
@@ -102,9 +106,9 @@ export default function GameBoard() {
             title={
               mode === 'daily'
                 ? dailyDoneToday
-                  ? 'Daily déjà complété (UTC) — réinitialisation désactivée'
-                  : 'Réinitialise les essais, la réponse du jour reste la même'
-                : 'Nouvelle partie avec une nouvelle réponse aléatoire'
+                  ? t('reset_daily_done')
+                  : t('reset_daily_hint')
+                : t('reset_training_hint')
             }
           >
             <span>
@@ -113,7 +117,7 @@ export default function GameBoard() {
                 variant="outlined"
                 disabled={mode === 'daily' && dailyDoneToday}
               >
-                Rejouer
+                {t('play_again')}
               </Button>
             </span>
           </Tooltip>
