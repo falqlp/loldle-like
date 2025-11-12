@@ -1,14 +1,4 @@
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Chip,
-  Tooltip,
-} from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import type { Champion } from '../data/champions';
@@ -32,31 +22,9 @@ const champUrlName: Record<string, string> = {
   LeBlanc: 'Leblanc',
   'Nunu & Willump': 'Nunu',
 };
-
-function colorFromStatus(s: Clue['status']) {
-  return s === 'correct' ? 'success' : s === 'close' ? 'warning' : 'error';
-}
-
 function findClue(clues: Clue[], field: keyof Champion) {
   return clues.find(c => c.field === field);
 }
-
-// Common style to make chips taller and allow multiline labels
-const chipSx = {
-  fontWeight: 600,
-  height: 'auto',
-  width: '100%',
-  minHeight: 50,
-  alignItems: 'center',
-
-  py: 0.5,
-  '& .MuiChip-label': {
-    whiteSpace: 'normal',
-    display: 'block',
-    lineHeight: 1.2,
-    py: 0.25,
-  },
-} as const;
 
 function multilineLabel(value: string) {
   const parts = value.split(/\s*,\s*/).filter(Boolean);
@@ -91,198 +59,198 @@ export default function GuessTable({ guesses }: { guesses: Guess[] }) {
     { key: 'releaseYear', label: t('col_year') },
   ];
 
+  const colCount = columns.length;
+
+  function statusColors(status: Clue['status']) {
+    // Map to semantic colors; adjust if needed
+    return status === 'correct'
+      ? { bg: 'success.main', fg: 'success.contrastText' }
+      : status === 'close'
+        ? { bg: 'warning.main', fg: 'warning.contrastText' }
+        : { bg: 'error.main', fg: 'error.contrastText' };
+  }
+
+  const headerSx = {
+    fontWeight: 700,
+    fontSize: { xs: 12, sm: 14 },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center' as const,
+    border: '1px solid',
+    borderColor: 'divider',
+    bgcolor: 'background.paper',
+    color: 'text.primary',
+  };
+
+  const cellBaseSx = {
+    position: 'relative' as const,
+    width: '100%',
+    aspectRatio: '1 / 1', // square
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center' as const,
+    p: 0.5,
+    border: '1px solid',
+    borderColor: 'divider',
+    overflow: 'hidden',
+  };
+
+  function Cell({ children, status }: { children: React.ReactNode; status: Clue['status'] }) {
+    const { bg, fg } = statusColors(status);
+    return <Box sx={{ ...cellBaseSx, bgcolor: bg, color: fg }}>{children}</Box>;
+  }
+
+  function NameCell({ label, status }: { label: string; status: Clue['status'] }) {
+    const { bg, fg } = statusColors(status);
+    return (
+      <Box sx={{ ...cellBaseSx, p: 0 }}>
+        <img
+          src={getImgUrl(label)}
+          alt={label}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: bg,
+            color: fg,
+            fontWeight: 700,
+            fontSize: { xs: 12, sm: 14 },
+            px: 0.5,
+            py: 0.25,
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+          }}
+          title={label}
+        >
+          {label}
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ width: '100%', overflowX: 'auto' }}>
-      <TableContainer>
-        <Table size="small" stickyHeader>
-          <TableHead>
-            <TableRow>
-              {columns.map(col => (
-                <TableCell key={String(col.key)} sx={{ fontWeight: 700 }}>
-                  {col.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {guesses.map((g, idx) => {
-              const nameStatus = findClue(g.clues, 'name')?.status ?? 'wrong';
-              const yearClue = findClue(g.clues, 'releaseYear');
-              return (
-                <TableRow key={idx} hover>
-                  {/* Name chip over image */}
-                  <TableCell sx={{ verticalAlign: 'center', padding: 0 }}>
-                    <Box sx={{ position: 'relative', width: 100, height: 100 }}>
-                      <img
-                        src={getImgUrl(g.raw)}
-                        alt={g.raw}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
-                        }}
-                      />
-                      <Chip
-                        label={g.raw}
-                        color={colorFromStatus(nameStatus)}
-                        variant="filled"
-                        sx={{
-                          position: 'absolute',
-                          zIndex: 1,
-                          bottom: 4,
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          width: 'calc(100% - 8px)',
-                          maxWidth: 'calc(100% - 8px)',
-                          height: 'auto',
-                          minHeight: 'unset',
-                          fontWeight: 600,
-                          px: 1,
-                          '& .MuiChip-label': {
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            lineHeight: 1.2,
-                          },
-                        }}
-                      />
-                    </Box>
-                  </TableCell>
+      {/* Grid wrapper: 8 equal columns; cells are square via aspect-ratio */}
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${colCount}, 1fr)`,
+          gap: 0,
+          minWidth: 360,
+        }}
+      >
+        {/* Header row */}
+        {columns.map(col => (
+          <Box key={String(col.key)} sx={{ ...headerSx, aspectRatio: '1 / 1' }}>
+            {col.label}
+          </Box>
+        ))}
 
-                  {/* Gender */}
-                  <TableCell sx={{ verticalAlign: 'center' }}>
-                    {(() => {
-                      const c = findClue(g.clues, 'gender');
-                      return c ? (
-                        <Chip
-                          label={String(c.value)}
-                          color={colorFromStatus(c.status)}
-                          variant="filled"
-                          sx={chipSx}
-                        />
-                      ) : null;
-                    })()}
-                  </TableCell>
+        {/* Data rows */}
+        {guesses.map((g, idx) => {
+          const nameStatus = findClue(g.clues, 'name')?.status ?? 'wrong';
+          const yearClue = findClue(g.clues, 'releaseYear');
 
-                  {/* Roles */}
-                  <TableCell sx={{ verticalAlign: 'center' }}>
-                    {(() => {
-                      const c = findClue(g.clues, 'roles');
-                      return c ? (
-                        <Chip
-                          label={multilineLabel(String(c.value))}
-                          color={colorFromStatus(c.status)}
-                          variant="filled"
-                          sx={chipSx}
-                        />
-                      ) : null;
-                    })()}
-                  </TableCell>
+          const gender = findClue(g.clues, 'gender');
+          const roles = findClue(g.clues, 'roles');
+          const species = findClue(g.clues, 'species');
+          const resource = findClue(g.clues, 'resource');
+          const rangeType = findClue(g.clues, 'rangeType');
+          const regions = findClue(g.clues, 'regions');
 
-                  {/* Species */}
-                  <TableCell sx={{ verticalAlign: 'center' }}>
-                    {(() => {
-                      const c = findClue(g.clues, 'species');
-                      return c ? (
-                        <Chip
-                          label={multilineLabel(
-                            String(c.value)
-                              .split(/\s*,\s*/)
-                              .filter(Boolean)
-                              .map(s => t('species.' + s))
-                              .join(', ')
-                          )}
-                          color={colorFromStatus(c.status)}
-                          variant="filled"
-                          sx={chipSx}
-                        />
-                      ) : null;
-                    })()}
-                  </TableCell>
+          return (
+            <Box key={`row-${idx}`} sx={{ display: 'contents' }}>
+              <NameCell label={g.raw} status={nameStatus} />
 
-                  {/* Resource */}
-                  <TableCell sx={{ verticalAlign: 'center' }}>
-                    {(() => {
-                      const c = findClue(g.clues, 'resource');
-                      return c ? (
-                        <Chip
-                          label={t('resources.' + String(c.value))}
-                          color={colorFromStatus(c.status)}
-                          variant="filled"
-                          sx={chipSx}
-                        />
-                      ) : null;
-                    })()}
-                  </TableCell>
+              {gender ? (
+                <Cell status={gender.status}>{String(gender.value)}</Cell>
+              ) : (
+                <Box sx={cellBaseSx} />
+              )}
 
-                  {/* RangeType */}
-                  <TableCell sx={{ verticalAlign: 'center' }}>
-                    {(() => {
-                      const c = findClue(g.clues, 'rangeType');
-                      return c ? (
-                        <Chip
-                          label={String(c.value)}
-                          color={colorFromStatus(c.status)}
-                          variant="filled"
-                          sx={chipSx}
-                        />
-                      ) : null;
-                    })()}
-                  </TableCell>
+              {roles ? (
+                <Cell status={roles.status}>{multilineLabel(String(roles.value))}</Cell>
+              ) : (
+                <Box sx={cellBaseSx} />
+              )}
 
-                  {/* Regions */}
-                  <TableCell sx={{ verticalAlign: 'center' }}>
-                    {(() => {
-                      const c = findClue(g.clues, 'regions');
-                      return c ? (
-                        <Chip
-                          label={multilineLabel(String(c.value))}
-                          color={colorFromStatus(c.status)}
-                          variant="filled"
-                          sx={chipSx}
-                        />
-                      ) : null;
-                    })()}
-                  </TableCell>
+              {species ? (
+                <Cell status={species.status}>
+                  {multilineLabel(
+                    String(species.value)
+                      .split(/\s*,\s*/)
+                      .filter(Boolean)
+                      .map(s => t('species.' + s))
+                      .join(', '),
+                  )}
+                </Cell>
+              ) : (
+                <Box sx={cellBaseSx} />
+              )}
 
-                  {/* Release Year with arrow/tooltip when needed */}
-                  <TableCell sx={{ verticalAlign: 'center' }}>
-                    {yearClue
-                      ? (() => {
-                          const isExact = yearClue.status === 'correct';
-                          const showArrow = !isExact && yearClue.direction;
-                          const icon = showArrow ? (
-                            yearClue.direction === 'newer' ? (
-                              <ArrowUpwardIcon />
-                            ) : (
-                              <ArrowDownwardIcon />
-                            )
-                          ) : undefined;
-                          const chip = (
-                            <Chip
-                              label={String(yearClue.value)}
-                              color={colorFromStatus(yearClue.status)}
-                              variant="filled"
-                              icon={icon}
-                              sx={chipSx}
-                            />
-                          );
-                          const tooltip = showArrow
-                            ? yearClue.direction === 'newer'
-                              ? t('year_more_recent')
-                              : t('year_older')
-                            : undefined;
-                          return tooltip ? <Tooltip title={tooltip}>{chip}</Tooltip> : chip;
-                        })()
-                      : null}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              {resource ? (
+                <Cell status={resource.status}>{t('resources.' + String(resource.value))}</Cell>
+              ) : (
+                <Box sx={cellBaseSx} />
+              )}
+
+              {rangeType ? (
+                <Cell status={rangeType.status}>{String(rangeType.value)}</Cell>
+              ) : (
+                <Box sx={cellBaseSx} />
+              )}
+
+              {regions ? (
+                <Cell status={regions.status}>{multilineLabel(String(regions.value))}</Cell>
+              ) : (
+                <Box sx={cellBaseSx} />
+              )}
+
+              {/* Release year with optional arrow + tooltip */}
+              {yearClue ? (
+                (() => {
+                  const isExact = yearClue.status === 'correct';
+                  const showArrow = !isExact && yearClue.direction;
+                  const icon = showArrow ? (
+                    yearClue.direction === 'newer' ? (
+                      <ArrowUpwardIcon />
+                    ) : (
+                      <ArrowDownwardIcon />
+                    )
+                  ) : null;
+                  const content = (
+                    <Cell status={yearClue.status}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        {icon}
+                        <span>{String(yearClue.value)}</span>
+                      </Box>
+                    </Cell>
+                  );
+                  const tooltip = showArrow
+                    ? yearClue.direction === 'newer'
+                      ? t('year_more_recent')
+                      : t('year_older')
+                    : undefined;
+                  return tooltip ? (
+                    <Tooltip title={tooltip}>{content}</Tooltip>
+                  ) : (
+                    <Box>{content}</Box>
+                  );
+                })()
+              ) : (
+                <Box sx={cellBaseSx} />
+              )}
+            </Box>
+          );
+        })}
+      </Box>
     </Box>
   );
 }

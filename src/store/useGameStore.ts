@@ -65,7 +65,7 @@ export const useGameStore = create<GameState>((set, get) => {
         ) + 1;
       const attempts = tries > 0 ? tries : todayGuesses.length;
       const gridRows = buildShareGridRows(todayGuesses.slice(0, attempts));
-      const url = typeof window !== 'undefined' ? window.location.origin : 'https://example.com';
+      const url = typeof window !== 'undefined' ? window.location.href : 'https://example.com';
       const attemptsLabel = i18n.t(attempts === 1 ? 'attempt_one' : 'attempt_other');
       const header = i18n.t('share_header', { attempts, attemptsLabel });
       return [header, ...gridRows, '', url].join('\n');
