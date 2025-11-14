@@ -21,6 +21,7 @@ const champUrlName: Record<string, string> = {
   "Vel'Koz": 'Velkoz',
   LeBlanc: 'Leblanc',
   'Nunu & Willump': 'Nunu',
+  'Renata Glasc': 'Renata',
 };
 function findClue(clues: Clue[], field: keyof Champion) {
   return clues.find(c => c.field === field);

@@ -14,6 +14,7 @@ export type Resource =
   | 'Ferocity'
   | 'Flow'
   | 'Health'
+  | 'Bloodlust'
   | 'Courage'
   | 'Other';
 
@@ -33,6 +34,7 @@ export type Region =
   | 'Ixtal'
   | 'Bandle City'
   | 'The Void'
+  | 'Icathia'
   | 'Camavor'
   | 'Runeterra';
 
@@ -57,6 +59,19 @@ export type Species =
   | 'Yeti'
   | 'Iceborn'
   | 'Magicborn'
+  | 'Spiritualist'
+  | 'War God'
+  | 'Magically altered'
+  | 'Chemically altered'
+  | 'Cyborg'
+  | 'Host'
+  | 'Revenant'
+  | 'Unknown'
+  | 'Dog'
+  | 'Rat'
+  | 'Cat'
+  | 'Plant'
+  | 'Baccal'
   | 'Other';
 
 export type Champion = {
