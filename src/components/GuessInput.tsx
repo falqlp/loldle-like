@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Autocomplete, TextField, Box } from '@mui/material';
+import { Autocomplete, TextField, Box, Button } from '@mui/material';
 import { useGameStore } from '../store/useGameStore';
 import { CHAMPIONS } from '../data/championsData';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,7 @@ export default function GuessInput() {
   const [selected, setSelected] = useState<string | null>(null);
   const tryGuess = useGameStore(s => s.tryGuess);
   const guesses = useGameStore(s => s.guesses);
+  const suggestNextGuess = useGameStore(s => s.suggestNextGuess);
 
   // Filter options to hide already-guessed champions
   const options = useMemo(() => {
@@ -47,6 +48,19 @@ export default function GuessInput() {
         renderInput={params => <TextField {...params} label={t('input_placeholder')} />}
         sx={{ flex: 1 }}
       />
+      <Button
+        variant="contained"
+        onClick={() => {
+          const suggestion = suggestNextGuess();
+          if (!suggestion) {
+            alert(t('no_suggestion', { defaultValue: 'Aucune suggestion disponible.' }));
+            return;
+          }
+          submitGuess(suggestion.name);
+        }}
+      >
+        {t('suggest_next_guess', { defaultValue: 'Suggérer le prochain essai' })}
+      </Button>
     </Box>
   );
 }

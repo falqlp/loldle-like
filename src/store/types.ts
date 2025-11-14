@@ -24,4 +24,5 @@ export type GameState = {
   tryGuess: (name: string) => 'win' | 'continue' | 'invalid' | 'duplicate';
   recordWin: (attempts: number) => void;
   buildDailyShareText: () => string;
+  suggestNextGuess: () => Champion | null;
 };

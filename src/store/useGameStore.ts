@@ -8,6 +8,7 @@ import { buildShareGridRows } from './utils/share';
 import i18n from '../i18n';
 import { computeClues } from './utils/clues';
 import { safeLoadV2, saveV2, type PersistedV2 } from './utils/storage';
+import { suggestFromHistory } from './utils/solver.ts';
 
 const persisted = safeLoadV2();
 
@@ -161,6 +162,11 @@ export const useGameStore = create<GameState>((set, get) => {
         return 'win';
       }
       return 'continue';
+    },
+    suggestNextGuess: () => {
+      const st = get();
+      const { suggestion } = suggestFromHistory(st.guesses);
+      return suggestion; // Champion | null
     },
   };
 });
